@@ -1,9 +1,9 @@
 //
 //    FILE: unit_test_001.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2021-05-18
-// PURPOSE: unit tests for the INA226 library
-//          https://github.com/RobTillaart/INA226
+//    DATE: 2024-05-27
+// PURPOSE: unit tests for the INA236 library
+//          https://github.com/RobTillaart/INA236
 //          https://github.com/Arduino-CI/arduino_ci/blob/master/REFERENCE.md
 //
 
@@ -32,13 +32,13 @@
 #include <ArduinoUnitTests.h>
 
 
-#include "INA226.h"
+#include "INA236.h"
 
 
 
 unittest_setup()
 {
-  fprintf(stderr, "\n INA226_LIB_VERSION: %s\n", (char *) INA226_LIB_VERSION);
+  fprintf(stderr, "\n INA236_LIB_VERSION: %s\n", (char *) INA236_LIB_VERSION);
 }
 
 unittest_teardown()
@@ -49,7 +49,7 @@ unittest_teardown()
 unittest(test_constructor)
 {
 
-  INA226 INA(0x40);
+  INA236 INA(0x40);
 
   Wire.begin();
   assertTrue(INA.begin());
@@ -62,57 +62,57 @@ unittest(test_constructor)
 
 unittest(test_constants)
 {
-  assertEqual(0x8000, INA226_SHUNT_OVER_VOLTAGE);
-  assertEqual(0x4000, INA226_SHUNT_UNDER_VOLTAGE);
-  assertEqual(0x2000, INA226_BUS_OVER_VOLTAGE);
-  assertEqual(0x1000, INA226_BUS_UNDER_VOLTAGE);
-  assertEqual(0x0800, INA226_POWER_OVER_LIMIT);
-  assertEqual(0x0400, INA226_CONVERSION_READY);
+  assertEqual(0x8000, INA236_SHUNT_OVER_VOLTAGE);
+  assertEqual(0x4000, INA236_SHUNT_UNDER_VOLTAGE);
+  assertEqual(0x2000, INA236_BUS_OVER_VOLTAGE);
+  assertEqual(0x1000, INA236_BUS_UNDER_VOLTAGE);
+  assertEqual(0x0800, INA236_POWER_OVER_LIMIT);
+  assertEqual(0x0400, INA236_CONVERSION_READY);
 
-  assertEqual(0x0010, INA226_ALERT_FUNCTION_FLAG);
-  assertEqual(0x0008, INA226_CONVERSION_READY_FLAG);
-  assertEqual(0x0004, INA226_MATH_OVERFLOW_FLAG);
-  assertEqual(0x0002, INA226_ALERT_POLARITY_FLAG);
-  assertEqual(0x0001, INA226_ALERT_LATCH_ENABLE_FLAG);
+  assertEqual(0x0010, INA236_ALERT_FUNCTION_FLAG);
+  assertEqual(0x0008, INA236_CONVERSION_READY_FLAG);
+  assertEqual(0x0004, INA236_MATH_OVERFLOW_FLAG);
+  assertEqual(0x0002, INA236_ALERT_POLARITY_FLAG);
+  assertEqual(0x0001, INA236_ALERT_LATCH_ENABLE_FLAG);
 
-  assertEqual(0x0000, INA226_ERR_NONE);
-  assertEqual(0x8000, INA226_ERR_SHUNTVOLTAGE_HIGH);
-  assertEqual(0x8001, INA226_ERR_MAXCURRENT_LOW);
-  assertEqual(0x8002, INA226_ERR_SHUNT_LOW);
+  assertEqual(0x0000, INA236_ERR_NONE);
+  assertEqual(0x8000, INA236_ERR_SHUNTVOLTAGE_HIGH);
+  assertEqual(0x8001, INA236_ERR_MAXCURRENT_LOW);
+  assertEqual(0x8002, INA236_ERR_SHUNT_LOW);
 
-  assertEqualFloat(0.001, INA226_MINIMAL_SHUNT, 0.0001);
+  assertEqualFloat(0.001, INA236_MINIMAL_SHUNT, 0.0001);
 }
 
 
 unittest(test_enum_setAverage)
 {
-  assertEqual(0, INA226_1_SAMPLE);
-  assertEqual(1, INA226_4_SAMPLES);
-  assertEqual(2, INA226_16_SAMPLES);
-  assertEqual(3, INA226_64_SAMPLES);
-  assertEqual(4, INA226_128_SAMPLES);
-  assertEqual(5, INA226_256_SAMPLES);
-  assertEqual(6, INA226_512_SAMPLES);
-  assertEqual(7, INA226_1024_SAMPLES);
+  assertEqual(0, INA236_1_SAMPLE);
+  assertEqual(1, INA236_4_SAMPLES);
+  assertEqual(2, INA236_16_SAMPLES);
+  assertEqual(3, INA236_64_SAMPLES);
+  assertEqual(4, INA236_128_SAMPLES);
+  assertEqual(5, INA236_256_SAMPLES);
+  assertEqual(6, INA236_512_SAMPLES);
+  assertEqual(7, INA236_1024_SAMPLES);
 }
 
 
 unittest(test_enum_BVCT_SVCT)
 {
-  assertEqual(0, INA226_140_us );
-  assertEqual(1, INA226_204_us );
-  assertEqual(2, INA226_332_us );
-  assertEqual(3, INA226_588_us );
-  assertEqual(4, INA226_1100_us);
-  assertEqual(5, INA226_2100_us);
-  assertEqual(6, INA226_4200_us);
-  assertEqual(7, INA226_8300_us);
+  assertEqual(0, INA236_140_us );
+  assertEqual(1, INA236_204_us );
+  assertEqual(2, INA236_332_us );
+  assertEqual(3, INA236_588_us );
+  assertEqual(4, INA236_1100_us);
+  assertEqual(5, INA236_2100_us);
+  assertEqual(6, INA236_4200_us);
+  assertEqual(7, INA236_8300_us);
 }
 
 
 unittest(test_core_functions)
 {
-  INA226 INA(0x40);
+  INA236 INA(0x40);
 
   Wire.begin();
   //  assertTrue(INA.begin());
@@ -129,7 +129,7 @@ unittest(test_core_functions)
 
 unittest(test_configuration)
 {
-  INA226 INA(0x40);
+  INA236 INA(0x40);
 
   Wire.begin();
   //  assertTrue(INA.begin());
@@ -148,31 +148,31 @@ unittest(test_configuration)
 
 unittest(test_calibration)
 {
-  INA226 INA(0x40);
+  INA236 INA(0x40);
 
   Wire.begin();
   //  assertTrue(INA.begin());
 
-  assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(30, 0.002));
-  assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(1,  0.05));
-  assertEqual(INA226_ERR_NONE, INA.setMaxCurrentShunt(1,  0.080));
+  assertEqual(INA236_ERR_NONE, INA.setMaxCurrentShunt(30, 0.002));
+  assertEqual(INA236_ERR_NONE, INA.setMaxCurrentShunt(1,  0.05));
+  assertEqual(INA236_ERR_NONE, INA.setMaxCurrentShunt(1,  0.080));
 
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(80.1, 0.001));
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(40.1, 0.002));
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(20.1, 0.004));
-  assertEqual(INA226_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(1.1, 0.080));
+  assertEqual(INA236_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(80.1, 0.001));
+  assertEqual(INA236_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(40.1, 0.002));
+  assertEqual(INA236_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(20.1, 0.004));
+  assertEqual(INA236_ERR_SHUNTVOLTAGE_HIGH, INA.setMaxCurrentShunt(1.1, 0.080));
 
-  assertEqual(INA226_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(0.0009));
-  assertEqual(INA226_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(0));
-  assertEqual(INA226_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(-1));
-  assertEqual(INA226_ERR_SHUNT_LOW,         INA.setMaxCurrentShunt(10, 0));
-  assertEqual(INA226_ERR_SHUNT_LOW,         INA.setMaxCurrentShunt(10, 0.0009));
+  assertEqual(INA236_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(0.0009));
+  assertEqual(INA236_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(0));
+  assertEqual(INA236_ERR_MAXCURRENT_LOW,    INA.setMaxCurrentShunt(-1));
+  assertEqual(INA236_ERR_SHUNT_LOW,         INA.setMaxCurrentShunt(10, 0));
+  assertEqual(INA236_ERR_SHUNT_LOW,         INA.setMaxCurrentShunt(10, 0.0009));
 }
 
 
 unittest(test_setMode)
 {
-  INA226 INA(0x40);
+  INA236 INA(0x40);
 
   Wire.begin();
   //  assertTrue(INA.begin());
