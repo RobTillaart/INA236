@@ -114,7 +114,7 @@ unittest(test_core_functions)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   fprintf(stderr, "need mock up\n");
@@ -131,7 +131,7 @@ unittest(test_configuration)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   //  only errors can be tested
@@ -150,7 +150,7 @@ unittest(test_calibration)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   assertEqual(INA236_ERR_NONE, INA.setMaxCurrentShunt(30, 0.002));
@@ -174,7 +174,7 @@ unittest(test_setMode)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   //  only errors can be tested
