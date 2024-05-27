@@ -20,7 +20,7 @@ _This documentation is based upon the INA226 library,
 and may contain information not updated yet.
 Please open an issue if needed._
 
-**Experimental** library for the INA236 current and power sensor.
+**Experimental** library for the INA236 current and power sensor.  
 Ported and updated from INA226 to INA236 by Josef Tremmel (thanks!).
 
 Read datasheet for details.
@@ -64,12 +64,12 @@ the A0 address line is connected to the SCL, SDA, GND and VCC pins.
 
 See table - from datasheet table 7.1, page 16.
 
-|  A0   |  INA236A  |  HEX   ||  INA236B  |  HEX   |
-|:-----:|:---------:|:------:||:---------:|:------:|
-|  GND  |     64    |  0x40  ||     72    |  0x48  |
-|  VS   |     65    |  0x41  ||     73    |  0x49  |
-|  SDA  |     66    |  0x42  ||     74    |  0x4A  |
-|  SCL  |     67    |  0x43  ||     75    |  0x4B  |
+|  A0   |  INA236A  |  HEX   |  INA236B  |  HEX   |
+|:-----:|:---------:|:------:|:---------:|:------:|
+|  GND  |     64    |  0x40  |     72    |  0x48  |
+|  VS   |     65    |  0x41  |     73    |  0x49  |
+|  SDA  |     66    |  0x42  |     74    |  0x4A  |
+|  SCL  |     67    |  0x43  |     75    |  0x4B  |
 
 
 #### Performance
