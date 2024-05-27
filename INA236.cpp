@@ -46,7 +46,7 @@ INA236::INA236(const uint8_t address, TwoWire *wire)
   _current_LSB = 0;
   _maxCurrent  = 0;
   _shunt       = 0;
-  _voltage_LSB = 2.5e-6; // default value of adc range
+  _voltage_LSB = 2.5e-6; // default value of ADC range (80 mV)
 }
 
 
@@ -77,14 +77,14 @@ uint8_t INA236::getAddress()
 float INA236::getBusVoltage()
 {
   uint16_t val = _readRegister(INA236_BUS_VOLTAGE);
-  return val * 1.6e-3;  //  1.6 mV/LSB fix
+  return val * 1.6e-3;  //  1.6 mV/LSB fixed
 }
 
 
 float INA236::getShuntVoltage()
 {
   int16_t val = _readRegister(INA236_SHUNT_VOLTAGE);
-  return val * _voltage_LSB;   //voltage lsb depends on range
+  return val * _voltage_LSB;  //  voltage LSB depends on range
 }
 
 
@@ -140,13 +140,22 @@ bool INA236::reset()
 }
 
 
-bool INA236::setADCRange(uint8_t adcr)
+bool INA236::setADCRange(uint8_t adcRange)
 {
-  if (adcr > 1) return false;
+  if (adcRange > 1) return false;
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
   mask &= ~INA236_CONF_ADCRANGE_MASK;
-  mask |= (adcr << 12);
+  mask |= (adcRange << 12);
   _writeRegister(INA236_CONFIGURATION, mask);
+  //  adjust voltage / LSB 
+  if (adcRange == 1)  //  20 mV
+  {
+    _voltage_LSB = 0.625e-6;  //  factor 4 smaller
+  }
+  else  //  80 mV
+  {
+    _voltage_LSB = 2.5e-6 ;
+  }
   return true;
 }
 
@@ -236,6 +245,8 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   //
   //  fix #16 - datasheet 6.5 Electrical Characteristics
   //            rounded value to 80 mV
+
+  float shuntVoltage = maxCurrent * shunt;
   if (shuntVoltage > 0.080)
   {
 #ifdef printdebug
@@ -258,23 +269,19 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     return INA236_ERR_SHUNT_LOW;
   }
 
-  //  work starts here
-  float shuntVoltage = maxCurrent * shunt;
-
   int adcRange;
   int adcRangeFactor;
-  if (shuntVoltage <= 0.02)
+  if (shuntVoltage <= 0.020)  //  20 mV
   {
     adcRange = 1;
     adcRangeFactor = 4;
-    _voltage_LSB = 0.625e-6;  //  factor 4 smaller
   }
-  else if (shuntVoltage <= 0.08)
+  else if (shuntVoltage <= 0.080)  //  80 mV
   {
     adcRange = 0;
     adcRangeFactor = 1;
-    _voltage_LSB = 2.5e-6 ;
   }
+  setADCRange(adcRange);
 
 #ifdef printdebug
   Serial.print("max shunt voltage \t");
@@ -283,7 +290,9 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   Serial.println(0.8 / (adcRangeFactor * shunt * pow(2, 15)) * 1e6);
 #endif
 
+
   setADCRange(adcRange);
+
 
   _current_LSB = maxCurrent * 3.0517578125e-5;      //  maxCurrent / 32768;
 

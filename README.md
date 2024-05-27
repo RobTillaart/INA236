@@ -30,11 +30,11 @@ Read datasheet for details.
 The INA236 is a voltage, current and power measurement device. 
 A few important maxima, see datasheet, chapter 6.
 
-|  description  |  max  |  unit  | notes |
-|:--------------|------:|-------:|:------|
-| bus voltage   |  36   | Volt   | unclear for how long.
-| shunt voltage |  80   | mVolt  |
-| current       |  20   | Ampere | 
+|  description  |  max  |  unit  |  notes  |
+|:--------------|------:|-------:|:--------|
+| bus voltage   |  48   | Volt   |  unclear for how long.
+| shunt voltage |  80   | mVolt  |  can be set to 20 mV.
+| current       |  20   | Ampere |  ?? TODO check
 
 
 #### Special characters
@@ -57,40 +57,28 @@ A few important maxima, see datasheet, chapter 6.
 
 #### Address
 
-The sensor can have 16 different I2C addresses, 
-which depends on how the A0 and A1 address lines 
-are connected to the SCL, SDA, GND and VCC pins.
+The INA236 comes in two flavours, the INA236A and INA236B
+with two disjunct address ranges.
+Both can have 4 different I2C addresses, which depends on how 
+the A0 address line is connected to the SCL, SDA, GND and VCC pins.
 
-See table - from datasheet table 2, page18.
+See table - from datasheet table 7.1, page 16.
 
-|  A1   |  A0   |  ADDRESS   |
-|:-----:|:-----:|:----------:|
-|  GND  |  GND  |  1000000   |
-|  GND  |  VS   |  1000001   |
-|  GND  |  SDA  |  1000010   |
-|  GND  |  SCL  |  1000011   |
-|  VS   |  GND  |  1000100   |
-|  VS   |  VS   |  1000101   |
-|  VS   |  SDA  |  1000110   |
-|  VS   |  SCL  |  1000111   |
-|  SDA  |  GND  |  1001000   |
-|  SDA  |  VS   |  1001001   |
-|  SDA  |  SDA  |  1001010   |
-|  SDA  |  SCL  |  1001011   |
-|  SCL  |  GND  |  1001100   |
-|  SCL  |  VS   |  1001101   |
-|  SCL  |  SDA  |  1001110   |
-|  SCL  |  SCL  |  1001111   |
+|  A0   |  INA236A  |  HEX   ||  INA236B  |  HEX   |
+|:-----:|:---------:|:------:||:---------:|:------:|
+|  GND  |     64    |  0x40  ||     72    |  0x48  |
+|  VS   |     65    |  0x41  ||     73    |  0x49  |
+|  SDA  |     66    |  0x42  ||     74    |  0x4A  |
+|  SCL  |     67    |  0x43  ||     75    |  0x4B  |
 
 
 #### Performance
 
 To be elaborated, example sketch available.
 
-(From Datasheet)  
-_The INA236 supports the transmission protocol for fast mode (1 kHz to 400 kHz) 
-and high-speed mode (1 kHz to 2.94 MHz).
-All data bytes are transmitted most significant byte first._
+(From Datasheet 7.5.1)  
+_The INA236 supports the transmission protocol for fast mode up to 
+400 kHz and high-speed mode up to 2.94 MHz._
 
 
 ## About Measurements
@@ -122,7 +110,7 @@ The example sketch **INA236_setMaxCurrentShunt.ino** switches between two calibr
 It shows the **INA266** sensor needs time to accommodate to this change. 
 In practice you should call **setMaxCurrentShunt()** only once in **setup()**.
 
-Also see #30 for another typical deviation problem.
+Also see INA226 issue 30 for another typical deviation problem.
 
 
 ## Interface
@@ -149,7 +137,7 @@ Note the power and the current are not meaningful without calibrating the sensor
 Also the value is not meaningful if there is no shunt connected.
 
 - **float getShuntVoltage()** idem, in volts.
-- **float getBusVoltage()** idem. in volts. Max 36 Volt.
+- **float getBusVoltage()** idem. in volts. Max 48 Volt.
 - **float getCurrent()** is the current through the shunt in Ampere.
 - **float getPower()** is the current x BusVoltage in Watt.
 - **bool isConversionReady()** returns true if conversion ready flag is set.
@@ -243,6 +231,18 @@ Note: times are typical, check datasheet for operational range.
 Note: total conversion time can take up to 1024 \* 8.3 ms ~ 10 seconds.
 
 
+#### ADCRange
+
+The INA236 can set the ADC range to 20 mV (adcRange == 1) 
+or to 80 mV (adcRange == 0) to optimize the accuracy.
+
+- **bool setADCRange(uint8_t adcRange)** adcRange = {0, 1}.
+The function sets the voltage/LSB and returns false adcRange is out of range.
+- **uint8_t getADCRange()** returns set value.
+
+Note: this function is not available on INA226.
+
+
 #### Calibration
 
 See datasheet.
@@ -252,6 +252,7 @@ Calibration is mandatory to get **getCurrent()** and **getPower()** to work.
 - **int setMaxCurrentShunt(float ampere = 20.0, float ohm = 0.002, bool normalize = true)** 
 set the calibration register based upon the shunt and the max Ampere. 
 From these two values the current_LSB is derived, the steps of the ADC when measuring current.
+This function also calls **setADCRange()** to optimize accuracy.
 Returns Error code, see below.
 - **bool isCalibrated()** returns true if CurrentLSB has been calculated by **setMaxCurrentShunt()**.
 Value should not be zero.
@@ -348,8 +349,8 @@ The alert line falls when alert is reached.
 
 #### Meta information
 
-- **uint16_t getManufacturerID()** should return 0x5449
-- **uint16_t getDieID()** should return 0x2260
+- **uint16_t getManufacturerID()** should return 0x5449.
+- **uint16_t getDieID()** should return 0xA080.
 
 
 #### Debugging
@@ -382,43 +383,14 @@ Be aware that
 
 #### Must
 
-- update documentation.
-- keep in sync with INA219 where possible.
+- keep in sync with INA226 where possible.
 
 #### Should
 
-- test different loads (low edge).
-- test examples.
-- investigate alert functions / interface.
-- disconnected load.
-  - can it be recognized? => current drop?
-
 #### Could
-
-- clean up magic numbers in the code
 
 
 #### Won't
-
-- **lastError()** do we need this?
-  - no
-- if **BVCT SVCT** is set to 6 or 7
-  - does the long timing affects RTOS? ==> yield()
-  - wait for issue
-- expand unit tests possible?
-  - need virtual device => too much work
-- cache configuration ? ==> 2 bytes.
-  - what is gained? updates are faster. footprint code?
-  - how often operational?
-  - 15 times used..
-- can the calibration math be optimized?
-  - integer only?
-  - less iterations?
-  - would cause rounding errors
-- make defines of "magic" numbers
-  - const floats (most used only once)
-- default address 0x40 ?
-  - the the user set it makes it always explicit.
 
 
 ## Support

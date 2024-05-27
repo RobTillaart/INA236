@@ -41,7 +41,7 @@
 #define INA236_ERR_SHUNT_LOW              0x8002
 #define INA236_ERR_NORMALIZE_FAILED       0x8003
 
-//  See issue #26
+//  See INA226 issue #26
 #define INA236_MINIMAL_SHUNT              0.001
 
 #define INA236_MAX_WAIT_MS                600   //  millis
@@ -114,7 +114,7 @@ public:
   uint8_t  getBusVoltageConversionTime();
   bool     setShuntVoltageConversionTime(uint8_t svct = INA236_1100_us);
   uint8_t  getShuntVoltageConversionTime();
-  bool     setADCRange(uint8_t adcr);
+  bool     setADCRange(uint8_t adcRange);
   uint8_t  getADCRange();
 
 
@@ -175,7 +175,7 @@ private:
   float    _current_LSB;
   float    _shunt;
   float    _maxCurrent;
-  double    _voltage_LSB;
+  float    _voltage_LSB;
 
   uint8_t   _address;
   TwoWire * _wire;
