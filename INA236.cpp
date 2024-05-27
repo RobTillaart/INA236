@@ -4,7 +4,7 @@
 // VERSION: 0.1.0
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for INA236 power sensor
-//     URL: https://github.com/RobTillaart/INA226
+//     URL: https://github.com/RobTillaart/INA236
 //
 //  Read the datasheet for the details
 
@@ -252,7 +252,7 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
 #ifdef printdebug
     Serial.print("[Error] max current too large for measurement range");
 #endif
-    return INA226_ERR_SHUNTVOLTAGE_HIGH;
+    return INA236_ERR_SHUNTVOLTAGE_HIGH;
   }
   if (maxCurrent < 0.001)
   {
