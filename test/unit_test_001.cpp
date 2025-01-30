@@ -48,12 +48,11 @@ unittest_teardown()
 
 unittest(test_constructor)
 {
-
   INA236 INA(0x40);
 
-  //Wire.begin();  //  throws an assertion in peek()
-  //assertTrue(INA.begin());
-  //assertTrue(INA.isConnected());
+  Wire.begin();
+  assertTrue(INA.begin());
+  assertTrue(INA.isConnected());
   assertEqual(0x40, INA.getAddress());
 
   assertFalse(INA.isCalibrated());
