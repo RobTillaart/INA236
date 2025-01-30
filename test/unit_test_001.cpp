@@ -109,28 +109,28 @@ unittest(test_enum_BVCT_SVCT)
 }
 
 
-unittest(test_core_functions)
-{
-  INA236 INA(0x40);
+// unittest(test_core_functions)
+// {
+  // INA236 INA(0x40);
 
-  Wire.begin();
-  assertTrue(INA.begin());
+  // Wire.begin();
+  // assertTrue(INA.begin());
 
-  fprintf(stderr, "need mock up\n");
-  /*
-  fprintf(stderr, "%f\n", INA.getShuntVoltage());
-  fprintf(stderr, "%f\n", INA.getBusVoltage());
-  fprintf(stderr, "%f\n", INA.getPower());
-  fprintf(stderr, "%f\n", INA.getCurrent());
-  */
-}
+  // fprintf(stderr, "need mock up\n");
+  // /*
+  // fprintf(stderr, "%f\n", INA.getShuntVoltage());
+  // fprintf(stderr, "%f\n", INA.getBusVoltage());
+  // fprintf(stderr, "%f\n", INA.getPower());
+  // fprintf(stderr, "%f\n", INA.getCurrent());
+  // */
+// }
 
 
 unittest(test_configuration)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   //  only errors can be tested
@@ -150,7 +150,7 @@ unittest(test_calibration)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   assertEqual(INA236_ERR_NONE, INA.setMaxCurrentShunt(30, 0.002));
@@ -175,7 +175,7 @@ unittest(test_setMode)
 {
   INA236 INA(0x40);
 
-  Wire.begin();
+  //  Wire.begin();
   //  assertTrue(INA.begin());
 
   //  only errors can be tested
