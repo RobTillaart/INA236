@@ -269,16 +269,16 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
     return INA236_ERR_SHUNT_LOW;
   }
 
-  int adcRange;
+  bool adcRange = false;
   int adcRangeFactor;
   if (shuntVoltage <= 0.020)  //  20 mV
   {
-    adcRange = 1;
+    adcRange = true;
     adcRangeFactor = 4;
   }
   else if (shuntVoltage <= 0.080)  //  80 mV
   {
-    adcRange = 0;
+    adcRange = false;
     adcRangeFactor = 1;
   }
   setADCRange(adcRange);
