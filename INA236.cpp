@@ -1,7 +1,7 @@
 //    FILE: INA236.cpp
 //  AUTHOR: Rob Tillaart
 //          ported from INA226 to INA236 by Josef Tremmel
-// VERSION: 0.1.2
+// VERSION: 0.1.3
 //    DATE: 2024-05-27
 // PURPOSE: Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 //     URL: https://github.com/RobTillaart/INA236
@@ -152,14 +152,30 @@ bool INA236::reset()
 
 bool INA236::setADCRange(bool flag)
 {
+  uint16_t value = _readRegister(INA236_CONFIGURATION);
+  _ADCRange = (value & INA236_CONF_ADCRANGE_MASK) > 0;
+  //  nothing changed ==> we're done.
+  if (flag == _ADCRange) return true;
   _ADCRange = flag;
-  uint16_t mask = _readRegister(INA236_CONFIGURATION);
-  if (flag) mask |= INA236_CONF_ADCRANGE_MASK;
-  else      mask &= ~INA236_CONF_ADCRANGE_MASK;
-  //  if mask has not changed we do not need to write it back.
-  _writeRegister(INA236_CONFIGURATION, mask);
+  if (flag) value |= INA236_CONF_ADCRANGE_MASK;
+  else      value &= ~INA236_CONF_ADCRANGE_MASK;
+  _writeRegister(INA236_CONFIGURATION, value);
+  //  INA228, #26 
+  setMaxCurrentShunt(getMaxCurrent(), getShunt());
   return true;
 }
+
+
+// bool INA236::setADCRange(bool flag)
+// {
+  // _ADCRange = flag;
+  // uint16_t mask = _readRegister(INA236_CONFIGURATION);
+  // if (flag) mask |= INA236_CONF_ADCRANGE_MASK;
+  // else      mask &= ~INA236_CONF_ADCRANGE_MASK;
+  // //  if mask has not changed we do not need to write it back.
+  // _writeRegister(INA236_CONFIGURATION, mask);
+  // return true;
+// }
 
 
 uint8_t INA236::getADCRange()
@@ -271,7 +287,7 @@ int INA236::setMaxCurrentShunt(float maxCurrent, float shunt, bool normalize)
   }
 
   bool adcRange = false;
-  int adcRangeFactor;
+  int adcRangeFactor = 1;
   if (shuntVoltage <= 0.020)  //  20 mV
   {
     adcRange = true;
