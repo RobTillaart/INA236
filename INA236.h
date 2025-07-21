@@ -89,11 +89,13 @@ public:
   //
   //       BUS VOLTAGE
   float    getBusVoltage();     //  Volt
-  float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
-  float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
+  float    getBusVolt()         { return getBusVoltage(); };
+  float    getBusVoltage_mV()   { return getBusVoltage() * 1e3; };
+  float    getBusVoltage_uV()   { return getBusVoltage() * 1e6; };
 
   //       SHUNT VOLTAGE
   float    getShuntVoltage();   //  Volt
+  float    getShuntVolt()       { return getShuntVoltage(); };
   float    getShuntVoltage_mV() { return getShuntVoltage() * 1e3; };
   float    getShuntVoltage_uV() { return getShuntVoltage() * 1e6; };
 
@@ -102,14 +104,16 @@ public:
 
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
-  float    getCurrent_mA()      { return getCurrent()      * 1e3; };
-  float    getCurrent_uA()      { return getCurrent()      * 1e6; };
+  float    getAmpere();         { return getCurrent(); };
+  float    getCurrent_mA()      { return getCurrent() * 1e3; };
+  float    getCurrent_uA()      { return getCurrent() * 1e6; };
 
   //       POWER
   float    getPower();          //  Watt
-  float    getPower_mW()        { return getPower()        * 1e3; };
-  float    getPower_uW()        { return getPower()        * 1e6; };
-  float    getPower_kW()        { return getPower()        * 1e-3; };
+  float    getWatt()            { return getPower(); };
+  float    getPower_mW()        { return getPower() * 1e3; };
+  float    getPower_uW()        { return getPower() * 1e6; };
+  float    getPower_kW()        { return getPower() * 1e-3; };
 
 
   //  See #35
