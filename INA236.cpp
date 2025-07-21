@@ -166,18 +166,6 @@ bool INA236::setADCRange(bool flag)
 }
 
 
-// bool INA236::setADCRange(bool flag)
-// {
-  // _ADCRange = flag;
-  // uint16_t mask = _readRegister(INA236_CONFIGURATION);
-  // if (flag) mask |= INA236_CONF_ADCRANGE_MASK;
-  // else      mask &= ~INA236_CONF_ADCRANGE_MASK;
-  // //  if mask has not changed we do not need to write it back.
-  // _writeRegister(INA236_CONFIGURATION, mask);
-  // return true;
-// }
-
-
 uint8_t INA236::getADCRange()
 {
   uint16_t mask = _readRegister(INA236_CONFIGURATION);
