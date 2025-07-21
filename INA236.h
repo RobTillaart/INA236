@@ -91,7 +91,7 @@ public:
   float    getBusVoltage();     //  Volt
   //float    getBusVolt()         { return getBusVoltage(); };
   float    getBusVoltage_mV()   { return getBusVoltage()   * 1e3; };
-  float    getBusVoltage_mV()   { return getBusVoltage()   * 1e6; };
+  float    getBusVoltage_uV()   { return getBusVoltage()   * 1e6; };
 
   //       SHUNT VOLTAGE
   float    getShuntVoltage();   //  Volt
