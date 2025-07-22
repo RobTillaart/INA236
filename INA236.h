@@ -104,7 +104,7 @@ public:
 
   //       SHUNT CURRENT
   float    getCurrent();        //  Ampere
-  float    getAmpere();         { return getCurrent(); };
+  float    getAmpere()          { return getCurrent(); };
   float    getCurrent_mA()      { return getCurrent() * 1e3; };
   float    getCurrent_uA()      { return getCurrent() * 1e6; };
 
