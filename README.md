@@ -261,6 +261,7 @@ or to 80 mV (adcRange == false) to optimize the accuracy.
 - **bool setADCRange(bool flag)** The function sets the voltage/LSB,
 flag = false => 81.92 mV, true => 20.48 mV
 Since 0.1.3 setADCRange() calls setMaxCurrentShunt() to update the internal LSB values.
+Returns false on failure of setMaxCurrentShunt().
 - **uint8_t getADCRange()** returns set value.
 
 Note: this function is not available on INA226.

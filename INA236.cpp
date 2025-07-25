@@ -161,8 +161,8 @@ bool INA236::setADCRange(bool flag)
   else      value &= ~INA236_CONF_ADCRANGE_MASK;
   _writeRegister(INA236_CONFIGURATION, value);
   //  INA228, #26 
-  setMaxCurrentShunt(getMaxCurrent(), getShunt());
-  return true;
+  bool rv = setMaxCurrentShunt(getMaxCurrent(), getShunt()) == 0;
+  return rv;
 }
 
 

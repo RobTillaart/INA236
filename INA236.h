@@ -129,10 +129,10 @@ public:
   uint8_t  getBusVoltageConversionTime();
   bool     setShuntVoltageConversionTime(uint8_t svct = INA236_1100_us);
   uint8_t  getShuntVoltageConversionTime();
+
   //  flag = false => 80 mV, true => 20 mV
   bool     setADCRange(bool flag);
   uint8_t  getADCRange();
-
 
 
   //  Calibration
