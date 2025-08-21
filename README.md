@@ -16,11 +16,13 @@ Arduino library for the INA236, I2C, 16 bit, voltage, current and power sensor.
 
 ## Description
 
+**Experimental**
+
 _This documentation is based upon the INA226 library, 
 and may contain information not updated yet.
 Please open an issue if needed._
 
-**Experimental** library for the INA236 current and power sensor.  
+Experimental library for the INA236 current and power sensor.  
 Ported and updated from INA226 to INA236 by Josef Tremmel (thanks!).
 
 Read datasheet for details.
@@ -390,10 +392,13 @@ The alert line falls when alert is reached.
 ## Adjusting the range of the INA236
 
 **use at own risk**
-In issue #26 a hack is made to scale the INA236 to 300A by using a very small shunt.
-The library has a minimal limit for the shunt of 0.001 ohm.
+
+See INA226, issue 26 - https://github.com/RobTillaart/INA226/issues/26
+
+In issue #26 a hack is made to scale the INA226 to 300A by using a very small shunt.
+The library has a minimal limit for the shunt of 0.001 Ohm = 1 mOhm.
 This limit can be overruled to support other ranges like the one discussed in #26.
-Overruling can be done by patching the following value in the INA236.h file.
+Overruling can be done by patching the following value in the **INA236.h** file.
 
 ```cpp
 #define INA236_MINIMAL_SHUNT             (0.001)
@@ -417,7 +422,6 @@ Be aware that
 #### Should
 
 #### Could
-
 
 #### Won't
 
