@@ -53,8 +53,10 @@ A few important maxima, see datasheet, chapter 6.
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
+- https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
@@ -394,14 +396,18 @@ The alert line falls when alert is reached.
 **use at own risk**
 
 See INA226, issue 26 - https://github.com/RobTillaart/INA226/issues/26
+See INA236, issue 8  - https://github.com/RobTillaart/INA236/issues/8
 
 In issue #26 a hack is made to scale the INA226 to 300A by using a very small shunt.
-The library has a minimal limit for the shunt of 0.001 Ohm = 1 mOhm.
-This limit can be overruled to support other ranges like the one discussed in #26.
-Overruling can be done by patching the following value in the **INA236.h** file.
+The INA236 library has a minimal limit for the shunt of 0.001 Ohm = 1 mOhm.
+This limit can be overruled to support wider ranges like the one discussed in #26.
+Overruling can be done by changing the value in the **INA236.h** file,
+or by defining INA236_MINIMAL_SHUNT on the command line.
 
 ```cpp
-#define INA236_MINIMAL_SHUNT             (0.001)
+#ifndef INA236_MINIMAL_SHUNT
+#define INA236_MINIMAL_SHUNT              0.001
+#endif
 ```
 
 Be aware that

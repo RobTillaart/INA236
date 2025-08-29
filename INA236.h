@@ -41,8 +41,10 @@
 #define INA236_ERR_SHUNT_LOW              0x8002
 #define INA236_ERR_NORMALIZE_FAILED       0x8003
 
-//  See INA226 issue #26
+//  See INA226 issue #26 + INA236 issue #8
+#ifndef INA236_MINIMAL_SHUNT
 #define INA236_MINIMAL_SHUNT              0.001
+#endif
 
 #define INA236_MAX_WAIT_MS                600   //  millis
 
