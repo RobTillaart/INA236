@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.4] - 2025-08-18
-- update github actions
+- update GitHub actions
+- allow overrule INA236_MINIMAL_SHUNT on command line.
 - update reference in readme.md (fix #8)
 - minor edits.
 
