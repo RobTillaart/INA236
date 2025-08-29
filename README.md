@@ -140,7 +140,7 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **bool isConnected()** returns true if the INA236 address is on the I2C bus.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
-### BUS VOLTAGE
+### Bus voltage
 
 Main function + wrappers.
 
@@ -150,7 +150,7 @@ This value is always positive.
 - **float getBusMilliVolt()**
 - **float getBusMicroVolt()**
 
-### SHUNT VOLTAGE
+### Shunt voltage
 
 - **float getShuntVoltage()** idem, Returns value in volts.
 Note the value can be positive or negative as the INA229 is bidirectional.
@@ -160,7 +160,7 @@ Note the value can be positive or negative as the INA229 is bidirectional.
 - **int32_t getShuntVoltageRAW()** integer version requested in issue #3.
 Returns raw ADC value, 20 bits with sign extended.
 
-### SHUNT CURRENT
+### Shunt current
 
 - **float getCurrent()** returns the current through the shunt in Ampere.
 Note this value can be positive or negative as the INA229 is bidirectional.
@@ -168,7 +168,7 @@ Note this value can be positive or negative as the INA229 is bidirectional.
 - **float getMilliAmpere()**
 - **float getMicroAmpere()**
 
-### POWER
+### Power
 
 - **float getPower()** returns the current x BusVoltage in Watt.
 - **float getWatt()**
