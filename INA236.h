@@ -13,8 +13,6 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-TODO SYNC INA226 ALERT FUNCTIONS
-
 
 #define INA236_LIB_VERSION                (F("0.1.5"))
 
