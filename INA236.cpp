@@ -457,7 +457,7 @@ bool INA236::setAlertRegister(uint16_t mask)
 
 uint16_t INA236::getAlertRegister()
 {
-  return _readRegister(INA226_MASK_ENABLE);
+  return _readRegister(INA236_MASK_ENABLE);
 }
 
 
