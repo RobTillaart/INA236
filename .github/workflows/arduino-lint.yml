@@ -7,7 +7,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6
-      - uses: arduino/arduino-lint-action
+      - uses: arduino/arduino-lint-action@latest
         with:
           library-manager: update
           compliance: strict
