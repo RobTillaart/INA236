@@ -55,8 +55,9 @@ A few important maxima, see datasheet, chapter 6.
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
 - https://github.com/RobTillaart/INA229  85 Volt, SPI, 20 bit
 - https://github.com/RobTillaart/INA236  48 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
-- https://github.com/RobTillaart/INA260  36 Volt, I2C, 16 bit
+- https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
@@ -89,6 +90,24 @@ To be elaborated, example sketch available.
 (From Datasheet 7.5.1)  
 _The INA236 supports the transmission protocol for fast mode up to 
 400 kHz and high-speed mode up to 2.94 MHz._
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## About Measurements
@@ -152,7 +171,7 @@ This value is always positive.
 ### Shunt voltage
 
 - **float getShuntVoltage()** idem, Returns value in volts.
-Note the value can be positive or negative as the INA229 is bidirectional.
+Note the value can be positive or negative as the INA236 is bidirectional.
 - **float getShuntVolt()**
 - **float getShuntMilliVolt()**
 - **float getShuntMicroVolt()**
@@ -162,7 +181,7 @@ Returns raw ADC value, 20 bits with sign extended.
 ### Shunt current
 
 - **float getCurrent()** returns the current through the shunt in Ampere.
-Note this value can be positive or negative as the INA229 is bidirectional.
+Note this value can be positive or negative as the INA236 is bidirectional.
 - **float getAmpere()**
 - **float getMilliAmpere()**
 - **float getMicroAmpere()**
