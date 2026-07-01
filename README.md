@@ -47,9 +47,12 @@ A few important maxima, see datasheet, chapter 6.
 
 ### Related
 
+Specifications
 - https://www.ti.com/product/INA236#tech-docs
 - https://www.ti.com/product/INA236#params
 - https://www.ti.com/document-viewer/INA236/datasheet
+
+INAxxx libraries
 - https://github.com/RobTillaart/INA219  26 Volt, I2C, 12 bit
 - https://github.com/RobTillaart/INA226  36 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA228  85 Volt, I2C, 20 bit
@@ -58,10 +61,13 @@ A few important maxima, see datasheet, chapter 6.
 - https://github.com/RobTillaart/INA238  85 Volt, I2C, 16 bit
 - https://github.com/RobTillaart/INA239  85 Volt, SPI, 16 bit
 - https://github.com/RobTillaart/INA260  36 Volt, SPI, 16 bit
+- https://github.com/RobTillaart/INA2227  48 Volt, I2C, 16 bits (2 channel)
 - https://github.com/RobTillaart/INA3221_RT  26 Volt, I2C, 13 bits (3 channel)
+
+Other
 - https://www.adafruit.com/product/5832
 - https://www.mateksys.com/?portfolio=i2c-ina-bm
-- https://github.com/RobTillaart/printHelpers  (for scientific notation)
+- https://github.com/RobTillaart/printHelpers scientific and units notation
 
 
 ## I2C
@@ -75,12 +81,12 @@ the A0 address line is connected to the SCL, SDA, GND and VCC pins.
 
 See table - from datasheet table 7.1, page 16.
 
-|  A0   |  INA236A  |  HEX   |  INA236B  |  HEX   |
-|:-----:|:---------:|:------:|:---------:|:------:|
-|  GND  |     64    |  0x40  |     72    |  0x48  |
-|  VS   |     65    |  0x41  |     73    |  0x49  |
-|  SDA  |     66    |  0x42  |     74    |  0x4A  |
-|  SCL  |     67    |  0x43  |     75    |  0x4B  |
+|  A0   |  INA236A  |  HEX   | |  INA236B  |  HEX   |
+|:-----:|:---------:|:------:|-|:---------:|:------:|
+|  GND  |     64    |  0x40  | |     72    |  0x48  |
+|  VS   |     65    |  0x41  | |     73    |  0x49  |
+|  SDA  |     66    |  0x42  | |     74    |  0x4A  |
+|  SCL  |     67    |  0x43  | |     75    |  0x4B  |
 
 
 ### Performance
@@ -162,7 +168,7 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 
 Main function + wrappers.
 
-- **float getBusVoltage()** idem. Returns value in volts. Max 85 Volt.
+- **float getBusVoltage()** idem. Returns value in volts. Max 48 Volt.
 This value is always positive.
 - **float getBusVolt()**
 - **float getBusMilliVolt()**
@@ -175,8 +181,6 @@ Note the value can be positive or negative as the INA236 is bidirectional.
 - **float getShuntVolt()**
 - **float getShuntMilliVolt()**
 - **float getShuntMicroVolt()**
-- **int32_t getShuntVoltageRAW()** integer version requested in issue #3.
-Returns raw ADC value, 20 bits with sign extended.
 
 ### Shunt current
 
@@ -469,6 +473,9 @@ Be aware that
 #### Should
 
 #### Could
+
+- setMaxCurrentShunt(), if normalize fails should we set current_LSB = 0.0f?
+  or continue with non normalized value.
 
 #### Won't
 
