@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.1.6] - 2026-07-01
+- fix version number
 - reset error flag in **reset()**
 - add constants for error handling
 - improve readme.md (remove some incorrect info)
